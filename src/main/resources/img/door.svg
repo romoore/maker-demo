@@ -1,0 +1,26 @@
+<?xml version="1.0"?><svg width="546.33447" height="960.43518" xmlns="http://www.w3.org/2000/svg">
+
+ <metadata id="metadata3662">image/svg+xml</metadata>
+ <g>
+  <title>Layer 1</title>
+  <g id="layer1">
+   <g id="g3640" transform="matrix(1.15995, 0, 0, 1.15995, 116.579, -74.802)">
+    <ellipse fill="#000000" stroke="#000000" cx="164.509888" cy="879.920652" rx="189" ry="12" id="ellipse6" transform="matrix(1.18981, 0, 0, 0.996301, -61.4878, 3.32131)"/>
+    <ellipse fill="#000000" stroke="#000000" cx="358.081985" cy="475.570877" rx="12" ry="411" id="ellipse8" transform="matrix(1.00046, 0, 0, 0.977392, -0.252024, 12.9827)"/>
+    <ellipse fill="#000000" stroke="#000000" cx="162.272476" cy="75.920937" rx="191" ry="11" id="ellipse10" transform="matrix(1.17293, 0, 0, 0.996317, -54.5449, 0.346194)"/>
+    <ellipse fill="#000000" stroke="#000000" cx="-87.913742" cy="477.549761" rx="12" ry="412" id="ellipse12" transform="matrix(1.00049, 0, 0, 0.976274, -0.0472623, 12.5698)"/>
+    <ellipse fill="#000000" stroke="#000000" cx="-29.542816" cy="681.781153" rx="11" ry="156" id="ellipse14" transform="matrix(1.0025, 0, 0, 0.890876, -0.387216, 77.9417)"/>
+    <ellipse fill="#000000" stroke="#000000" cx="165.812592" cy="822.906561" rx="132" ry="12" id="ellipse16" transform="matrix(1.23182, 0, 0, 0.995525, -72.9263, 3.76305)"/>
+    <ellipse fill="#000000" stroke="#000000" cx="293.31218" cy="686.378201" rx="12" ry="152" id="ellipse18" transform="matrix(1.00171, 0, 0, 0.917983, -0.817904, 54.6767)"/>
+    <ellipse fill="#000000" stroke="#000000" cx="169.215714" cy="546.895147" rx="131" ry="11" id="ellipse20" transform="matrix(1.24344, 0, 0, 0.994898, -78.2727, 2.8827)"/>
+    <ellipse fill="#000000" stroke="#000000" cx="-29.644806" cy="277.303398" rx="11" ry="154" id="ellipse22" transform="matrix(1.00194, 0, 0, 0.914497, -0.301387, 24.3655)"/>
+    <ellipse fill="#000000" stroke="#000000" cx="174.106476" cy="416.873608" rx="126" ry="11" id="ellipse24" transform="matrix(1.30382, 0, 0, 0.993716, -94.3239, 2.73371)"/>
+    <ellipse fill="#000000" stroke="#000000" cx="170.560745" cy="138.881748" rx="129" ry="11" id="ellipse28" transform="matrix(1.28084, 0, 0, 0.994162, -85.4719, 0.916555)"/>
+    <circle fill="#000000" stroke="#000000" cx="292.99617" cy="474.98752" r="8" id="circle30"/>
+    <circle fill="#000000" stroke="#000000" cx="292.99617" cy="474.98752" r="31" id="circle32"/>
+    <ellipse fill="#000000" stroke="#000000" cx="-29.600433" cy="277.07884" rx="11" ry="154" id="ellipse22-1" transform="matrix(1.00219, 0, 0, 0.904188, 326.57, 26.8624)"/>
+   </g>
+  </g>
+  <text transform="matrix(1.92369, 0, 0, 2.66667, -168.646, -206.611)" xml:space="preserve" text-anchor="middle" font-family="Arial" font-size="24" id="svg_1" y="162.064819" x="229.665527" stroke="#000000" fill="#000000">WELCOME</text>
+ </g>
+</svg>
