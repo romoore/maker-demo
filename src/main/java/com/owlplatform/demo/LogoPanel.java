@@ -23,6 +23,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -38,41 +39,34 @@ import org.slf4j.LoggerFactory;
  * @author Robert Moore
  *
  */
-public class DoorPanel extends JPanel {
-  private static final Logger log = LoggerFactory.getLogger(DoorPanel.class);
-  private static BufferedImage doorImage = null;
-  private static BufferedImage visitorImage = null;
+public class LogoPanel extends JPanel {
+  private static final Logger log = LoggerFactory.getLogger(LogoPanel.class);
+  private static BufferedImage logo = null;
   
-  private boolean hasVisitor = false;
   
-  public DoorPanel(){ 
+  private boolean hasWater = false;
+  
+  public LogoPanel(){ 
     super();
-    if(this.doorImage != null){
-      this.setPreferredSize(new Dimension(this.doorImage.getWidth(), this.doorImage.getHeight()));
+    if(this.logo != null){
+      this.setPreferredSize(new Dimension(this.logo.getWidth(), this.logo.getHeight()));
     }
   }
   
   static {
     try {
-    doorImage = ImageIO.read(new File("src/main/resources/img/door.png"));
-    visitorImage = ImageIO.read(new File("src/main/resources/img/man.png"));
+    logo = ImageIO.read(new File("src/main/resources/img/owl.png"));
     }catch(Exception e){
       log.error("Unable to load one or more image resources.",e);
       
     }
   }
   
-  public void setHasVisitor(final boolean hasVisitor){
-    log.debug("Updating visitor state: {}", hasVisitor);
-    this.hasVisitor = hasVisitor;
-    this.repaint(100);
-    
-  }
   
   @Override
   public void paintComponent(Graphics g){
     super.paintComponent(g);
-    log.debug("Redrawing door panel.");
+    log.debug("Redrawing flood panel.");
     Graphics2D g2 = (Graphics2D)g;
     
     int width = this.getWidth();
@@ -91,34 +85,36 @@ public class DoorPanel extends JPanel {
     width -= 2;
     height -= 2;
     
-    if(doorImage != null){
-      log.debug("Drawing door image.");
-      float imgAR = (this.doorImage.getWidth()*1f)/this.doorImage.getHeight();
-      float scaleY = (height *1f) / this.doorImage.getHeight();
-      
-      int imgWidth = (int)(height*imgAR);
-      int offsetX = (width - imgWidth)/2;
-      
-      g2.drawImage(this.doorImage, offsetX, 1, imgWidth+offsetX, height, 0, 0, this.doorImage.getWidth(), this.doorImage.getHeight(), null);
+    BufferedImage drawImage = this.logo;
+    
+    
+    
+    float imgAR = (drawImage.getWidth()*1f)/drawImage.getHeight();
+    float screenAR = (width*1f)/height;
+    
+    int imgHeight = 0;
+    int imgWidth = 0;
+    int offsetX = 1;
+    int offsetY = 1;
+    
+    // Wide screen
+    if(screenAR > 1){
+      imgHeight = height;
+      imgWidth = (int)(height*imgAR);
+      offsetX = (width - imgWidth)/2;
+    }
+    // Tall
+    else{
+      imgWidth = width;
+      imgHeight = (int)(width/imgAR);
+      offsetY = (height - imgHeight)/2;
     }
     
-    if(this.hasVisitor) {
-      log.debug("Visitor is here!");
-    }else{
-      log.debug("Nobody loves us...");
-    }
     
-    if(this.hasVisitor && this.visitorImage != null){
-      log.debug("Drawing visitor image.");
-      
-      float imgAR = (this.visitorImage.getWidth()*1f)/this.visitorImage.getHeight();
-      float scaleY = (height *1f) / this.visitorImage.getHeight();
-      
-      int imgWidth = (int)(height*imgAR);
-      int offsetX = (width - imgWidth)/2;
-      
-      g2.drawImage(this.visitorImage, offsetX, 1, imgWidth+offsetX, height, 0, 0, this.visitorImage.getWidth(), this.visitorImage.getHeight(), null);
-    }
+    
+    g2.drawImage(drawImage, offsetX, offsetY, imgWidth + offsetX, imgHeight + offsetY, 0, 0, drawImage.getWidth(), drawImage.getHeight(), null);
+    
+    
   }
   
 }

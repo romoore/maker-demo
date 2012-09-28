@@ -1,9 +1,9 @@
 <com.owlplatform.demo.MakerDemoConfig>
-  <wmHost>localhost</wmHost>
-  <chairId>maker.demo.chair</chairId>
-  <welcomeMatId>maker.demo.welcome mat</welcomeMatId>
-  <waterId>maker.demo.water sensor</waterId>
+  <wmHost>raspberry</wmHost>
+  <chairId>maker.demo.chair.9</chairId>
+  <welcomeMatId>maker.demo.door.6</welcomeMatId>
+  <waterId>maker.demo.flood.10</waterId>
   <walletId>maker.demo.wallet</walletId>
   <keysId>maker.demo.keys</keysId>
-  <powerId>maker.demo.power</powerId>
+  <powerId>maker.demo.power.122</powerId>
 </com.owlplatform.demo.MakerDemoConfig>

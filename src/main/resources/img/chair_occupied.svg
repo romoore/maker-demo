@@ -1,0 +1,16 @@
+<?xml version="1.0"?><svg width="606.05023" height="828.31598" xmlns="http://www.w3.org/2000/svg">
+
+ <metadata id="metadata7">image/svg+xml</metadata>
+ <g>
+  <title>Layer 1</title>
+  <g id="layer1">
+   <rect fill="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-dashoffset="0" transform="matrix(0.280473, 0.959862, -0.971115, 0.238613, 0, 0)" id="rect3133" width="369.13678" height="88.418434" x="570.77192" y="-363.591802" rx="44.3983" ry="44.410831"/>
+   <rect fill="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-dashoffset="0" ry="44.446712" rx="44.446712" y="470.838655" x="125.574392" height="88.893425" width="400.02042" id="rect3135"/>
+   <rect fill="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-dashoffset="0" transform="matrix(0, -1, 1, 0, 0, 0)" id="rect3155" width="400.02042" height="88.893425" x="-557.711735" y="123.554092" rx="44.446712" ry="44.446712"/>
+   <path fill="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-dashoffset="0" d="m170.338669,0.00179a109.096466,109.096466 0 1 1 -0.627029,-0.001798" id="path3157"/>
+   <rect fill="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-dashoffset="0" id="rect3159" width="400.02042" height="88.893425" x="124.145812" y="267.981505" rx="44.446712" ry="44.446712"/>
+   <path fill="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-dashoffset="0" id="rect3161" d="m44.4375,545.46875c-24.62348,0 -44.4375,19.845276 -44.4375,44.46875l0,193.9375c0,24.623535 19.81402,44.4375 44.4375,44.4375l14.15625,0l0,-44.4375l0,-125.25l0,-22c0,-24.623474 19.814018,-44.4375 44.4375,-44.4375l224.25,0c24.623505,0 44.46875,19.814026 44.46875,44.4375l0,22l0,125.25l0,44.4375l12.125,0c24.623474,0 44.4375,-19.814026 44.4375,-44.4375l0,-193.9375c0,-24.623474 -19.814026,-44.46875 -44.4375,-44.46875l-339.4375,0z"/>
+   <path fill="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-dashoffset="0" id="rect5101" d="m44.15625,185.50351c-24.460388,0 -44.156248,19.814011 -44.156248,44.4375l0,356.812469c0,24.623535 19.69586,44.4375 44.156248,44.4375c5.340294,0 10.457092,-0.954041 15.1875,-2.6875c2.854057,-15.545959 13.726593,-28.212524 28.21875,-33.5625c0.488129,-2.655884 0.75,-5.385071 0.75,-8.1875l0,-356.812469c0,-24.623489 -19.695862,-44.4375 -44.15625,-44.4375z"/>
+  </g>
+ </g>
+</svg>

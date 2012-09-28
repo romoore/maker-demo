@@ -36,6 +36,7 @@ import com.owlplatform.worldmodel.Attribute;
 import com.owlplatform.worldmodel.client.ClientWorldConnection;
 import com.owlplatform.worldmodel.client.StepResponse;
 import com.owlplatform.worldmodel.client.WorldState;
+import com.owlplatform.worldmodel.types.BooleanConverter;
 import com.owlplatform.worldmodel.types.DataConverter;
 import com.owlplatform.worldmodel.types.TypeConverter;
 import com.thoughtworks.xstream.XStream;
@@ -60,7 +61,8 @@ public class MakerDemo extends Thread {
     fin.close();
     MakerDemo md = new MakerDemo(config);
 
-    md.init();
+    md.start();
+
   }
 
   private final MakerDemoConfig config;
@@ -70,19 +72,22 @@ public class MakerDemo extends Thread {
 
   private DoorPanel doorPanel = new DoorPanel();
   private StepResponse doorResponse = null;
-  private JPanel floodPanel = new JPanel();
+  private FloodPanel floodPanel = new FloodPanel();
   private StepResponse floodResponse = null;
-  private JPanel powerPanel = new JPanel();
+  private PowerPanel powerPanel = new PowerPanel();
   private StepResponse powerResponse = null;
-  private JPanel walletPanel = new JPanel();
+  private ChairPanel chairPanel = new ChairPanel();
+  private StepResponse chairResponse = null;
+  private ReminderPanel walletPanel = new ReminderPanel();
   private StepResponse walletResponse = null;
+  private LogoPanel logoPanel = new LogoPanel();
 
   private boolean keepRunning = true;
 
   public MakerDemo(final MakerDemoConfig config) {
     super();
     this.config = config;
-    this.worldModel.setHost(this.config.getWmHost());
+
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {
         MakerDemo.this.shutdown();
@@ -100,29 +105,147 @@ public class MakerDemo extends Thread {
   }
 
   private void setupWMConnection() {
+    this.worldModel.setHost(this.config.getWmHost());
     this.worldModel.connect(10000);
     log.debug("Connected to {}", this.worldModel);
 
     this.doorResponse = this.worldModel.getStreamRequest(
-        this.config.getWelcomeMatId(), System.currentTimeMillis(), 0, "empty");
+        this.config.getWelcomeMatId(), System.currentTimeMillis(), 0, "closed");
+    this.floodResponse = this.worldModel.getStreamRequest(
+        this.config.getWaterId(), System.currentTimeMillis(), 0, "wet");
+    this.powerResponse = this.worldModel.getStreamRequest(
+        this.config.getPowerId(), System.currentTimeMillis(), 0, "on");
+    this.chairResponse = this.worldModel.getStreamRequest(
+        this.config.getChairId(), System.currentTimeMillis(), 0, "occupied");
+    this.walletResponse = this.worldModel
+        .getStreamRequest(
+            "^(" + this.config.getKeysId() + "|" + this.config.getWalletId()
+                + ")$", System.currentTimeMillis(), 0, "missing");
   }
 
   public void run() {
+    this.init();
     while (this.keepRunning) {
       try {
+        // Welcome mat
         if (this.doorResponse.hasNext()) {
           log.debug("Welcome mat changed state.");
           WorldState state = this.doorResponse.next();
-          Collection<Attribute> attributes = state.getState(this.config.getWelcomeMatId());
-          for(Attribute attr : attributes){
-            if(attr.getAttributeName().equalsIgnoreCase("empty")){
-              Boolean newValue = (Boolean)DataConverter.decode(attr.getAttributeName(), attr.getData());
-              if(newValue){
+          Collection<Attribute> attributes = state.getState(this.config
+              .getWelcomeMatId());
+          for (Attribute attr : attributes) {
+            if (attr.getAttributeName().equalsIgnoreCase("closed")) {
+              Boolean newValue = (Boolean) DataConverter.decode(
+                  attr.getAttributeName(), attr.getData());
+              if (newValue.booleanValue()) {
                 log.info("[Welcome Mat] A wild visitor has appeared!");
-              }else{
+              } else {
                 log.info("[Welcome Mat] Calm returns to the area.");
               }
-              this.doorPanel.setHasVisitor(!newValue.booleanValue());
+              this.doorPanel.setHasVisitor(newValue.booleanValue());
+              this.walletPanel.setNeedItems(newValue.booleanValue());
+            }
+          }
+        }
+        // Flood sensor
+        if (this.floodResponse.hasNext()) {
+          log.debug("Flood sensor changed state.");
+          WorldState state = this.floodResponse.next();
+          Collection<Attribute> attributes = state.getState(this.config
+              .getWaterId());
+          for (Attribute attr : attributes) {
+            if (attr.getAttributeName().equalsIgnoreCase("wet")) {
+              Boolean newValue = BooleanConverter.get().decode(attr.getData());
+              if (newValue.booleanValue()) {
+                log.info("[Flood Sensor] A wild raindrop appeared!!");
+              } else {
+                log.info("[Flood Sensor] Dry as a desert.");
+              }
+              this.floodPanel.setHasWater(newValue.booleanValue());
+            }
+          }
+        }
+
+        // Power sensor
+        if (this.powerResponse.hasNext()) {
+          log.debug("Power sensor changed state.");
+          WorldState state = this.powerResponse.next();
+          Collection<Attribute> attributes = state.getState(this.config
+              .getPowerId());
+          for (Attribute attr : attributes) {
+            if (attr.getAttributeName().equalsIgnoreCase("on")) {
+              Boolean newValue = BooleanConverter.get().decode(
+                  attr.getData());
+              if (newValue.booleanValue()) {
+                log.info("[Power Sensor] Flip the switch!");
+              } else {
+                log.info("[Power Sensor] Conservation is best.");
+              }
+              this.powerPanel.setHasPower(newValue.booleanValue());
+            }
+          }
+        }
+
+        // Chair Sensor
+        if (this.chairResponse.hasNext()) {
+          log.debug("Chair sensor changed state.");
+          WorldState state = this.chairResponse.next();
+          Collection<Attribute> attributes = state.getState(this.config
+              .getChairId());
+          for (Attribute attr : attributes) {
+            if (attr.getAttributeName().equalsIgnoreCase("occupied")) {
+              Boolean newValue = BooleanConverter.get().decode(
+                  attr.getData());
+              if (newValue.booleanValue()) {
+                log.info("[Chair Sensor] What a comfy chair!");
+              } else {
+                log.info("[Chair Sensor] Stretching my legs.");
+              }
+              this.chairPanel.setIsOccupied(newValue.booleanValue());
+            }
+          }
+        }
+
+        // Wallet and Keys sensor
+        if (this.walletResponse.hasNext()) {
+          log.debug("Reminder changed state.");
+          WorldState state = this.walletResponse.next();
+          Collection<Attribute> attributes = state.getState(this.config
+              .getWalletId());
+          if (attributes != null) {
+            for (Attribute attr : attributes) {
+              if (attr.getAttributeName().equalsIgnoreCase("missing")) {
+                Boolean newValue = BooleanConverter.get()
+                    .decode(attr.getData());
+                if (newValue.booleanValue()) {
+                  log.info("[Wallet] Don't forget the wallet!");
+                  this.walletPanel.setNeedItems(true);
+                  this.walletPanel.setWalletIsMissing(true);
+                } else {
+                  log.info("[Wallet] Picked up your wallet.");
+                  this.walletPanel.setWalletIsMissing(false);
+                }
+                
+              }
+            }
+          }
+          attributes = state.getState(this.config
+              .getKeysId());
+          if (attributes != null) {
+            for (Attribute attr : attributes) {
+              if (attr.getAttributeName().equalsIgnoreCase("missing")) {
+                Boolean newValue = BooleanConverter.get()
+                    .decode(attr.getData());
+                if (newValue.booleanValue()) {
+                  log.info("[Keys] Don't forget the keys!");
+                  this.walletPanel.setNeedItems(true);
+                  this.walletPanel.setKeyIsMissing(true);
+                } else {
+                  log.info("[Keys] Picked up your keys.");
+                  this.walletPanel.setKeyIsMissing(false);
+                }
+                
+              }
             }
           }
         }
@@ -137,6 +260,10 @@ public class MakerDemo extends Thread {
       }
     }
     this.doorResponse.cancel();
+    this.floodResponse.cancel();
+    this.powerResponse.cancel();
+    this.chairResponse.cancel();
+    this.walletResponse.cancel();
     this.worldModel.disconnect();
   }
 
@@ -152,10 +279,12 @@ public class MakerDemo extends Thread {
     this.mainFrame.add(this.powerPanel);
 
     // Second row
-    this.mainFrame.add(this.powerPanel);
+    this.mainFrame.add(this.chairPanel);
     this.mainFrame.add(this.walletPanel);
+    this.mainFrame.add(this.logoPanel);
 
-    this.mainFrame.pack();
+    this.mainFrame.setSize(800, 600);
+    // this.mainFrame.pack();
     this.mainFrame.setVisible(true);
   }
 

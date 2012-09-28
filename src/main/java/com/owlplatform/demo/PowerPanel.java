@@ -23,6 +23,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -38,33 +39,33 @@ import org.slf4j.LoggerFactory;
  * @author Robert Moore
  *
  */
-public class DoorPanel extends JPanel {
-  private static final Logger log = LoggerFactory.getLogger(DoorPanel.class);
-  private static BufferedImage doorImage = null;
-  private static BufferedImage visitorImage = null;
+public class PowerPanel extends JPanel {
+  private static final Logger log = LoggerFactory.getLogger(PowerPanel.class);
+  private static BufferedImage activeImage = null;
+  private static BufferedImage inactiveImage = null;
   
-  private boolean hasVisitor = false;
+  private boolean hasPower = false;
   
-  public DoorPanel(){ 
+  public PowerPanel(){ 
     super();
-    if(this.doorImage != null){
-      this.setPreferredSize(new Dimension(this.doorImage.getWidth(), this.doorImage.getHeight()));
+    if(this.activeImage != null){
+      this.setPreferredSize(new Dimension(this.activeImage.getWidth(), this.activeImage.getHeight()));
     }
   }
   
   static {
     try {
-    doorImage = ImageIO.read(new File("src/main/resources/img/door.png"));
-    visitorImage = ImageIO.read(new File("src/main/resources/img/man.png"));
+    activeImage = ImageIO.read(new File("src/main/resources/img/power_active.png"));
+    inactiveImage = ImageIO.read(new File("src/main/resources/img/power_inactive.png"));
     }catch(Exception e){
       log.error("Unable to load one or more image resources.",e);
       
     }
   }
   
-  public void setHasVisitor(final boolean hasVisitor){
-    log.debug("Updating visitor state: {}", hasVisitor);
-    this.hasVisitor = hasVisitor;
+  public void setHasPower(final boolean hasPower){
+    log.debug("Updating power state: {}", hasPower);
+    this.hasPower = hasPower;
     this.repaint(100);
     
   }
@@ -72,7 +73,7 @@ public class DoorPanel extends JPanel {
   @Override
   public void paintComponent(Graphics g){
     super.paintComponent(g);
-    log.debug("Redrawing door panel.");
+    log.debug("Redrawing power panel.");
     Graphics2D g2 = (Graphics2D)g;
     
     int width = this.getWidth();
@@ -91,34 +92,25 @@ public class DoorPanel extends JPanel {
     width -= 2;
     height -= 2;
     
-    if(doorImage != null){
-      log.debug("Drawing door image.");
-      float imgAR = (this.doorImage.getWidth()*1f)/this.doorImage.getHeight();
-      float scaleY = (height *1f) / this.doorImage.getHeight();
-      
-      int imgWidth = (int)(height*imgAR);
-      int offsetX = (width - imgWidth)/2;
-      
-      g2.drawImage(this.doorImage, offsetX, 1, imgWidth+offsetX, height, 0, 0, this.doorImage.getWidth(), this.doorImage.getHeight(), null);
-    }
+    BufferedImage drawImage = this.inactiveImage;
     
-    if(this.hasVisitor) {
-      log.debug("Visitor is here!");
+    if(this.hasPower){
+      log.debug("Power is being used.");
+      drawImage = this.activeImage;
     }else{
-      log.debug("Nobody loves us...");
+      log.debug("Saving energy...");
     }
     
-    if(this.hasVisitor && this.visitorImage != null){
-      log.debug("Drawing visitor image.");
-      
-      float imgAR = (this.visitorImage.getWidth()*1f)/this.visitorImage.getHeight();
-      float scaleY = (height *1f) / this.visitorImage.getHeight();
-      
-      int imgWidth = (int)(height*imgAR);
-      int offsetX = (width - imgWidth)/2;
-      
-      g2.drawImage(this.visitorImage, offsetX, 1, imgWidth+offsetX, height, 0, 0, this.visitorImage.getWidth(), this.visitorImage.getHeight(), null);
-    }
+    
+    float imgAR = (drawImage.getWidth()*1f)/drawImage.getHeight();
+    float scaleY = (height *1f) / drawImage.getHeight();
+    
+    int imgWidth = (int)(height*imgAR);
+    int offsetX = (width - imgWidth)/2;
+    
+    g2.drawImage(drawImage, offsetX, 1, imgWidth+offsetX, height, 0, 0, drawImage.getWidth(), drawImage.getHeight(), null);
+    
+    
   }
   
 }
