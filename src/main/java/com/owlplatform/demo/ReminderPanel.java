@@ -72,8 +72,8 @@ public class ReminderPanel extends JPanel {
     }
   }
 
-  private boolean keyIsMissing = false;
-  private boolean walletIsMissing = false;
+  private boolean keyIsMissing = true;
+  private boolean walletIsMissing = true;
   private boolean needItems = false;
 
   public void setKeyIsMissing(final boolean keyIsMissing) {

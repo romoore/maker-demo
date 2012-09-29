@@ -110,7 +110,7 @@ public class MakerDemo extends Thread {
     log.debug("Connected to {}", this.worldModel);
 
     this.doorResponse = this.worldModel.getStreamRequest(
-        this.config.getWelcomeMatId(), System.currentTimeMillis(), 0, "closed");
+        this.config.getWelcomeMatId(), System.currentTimeMillis(), 0, "open");
     this.floodResponse = this.worldModel.getStreamRequest(
         this.config.getWaterId(), System.currentTimeMillis(), 0, "wet");
     this.powerResponse = this.worldModel.getStreamRequest(
@@ -127,6 +127,49 @@ public class MakerDemo extends Thread {
     this.init();
     while (this.keepRunning) {
       try {
+        // Wallet and Keys sensor
+        if (this.walletResponse.hasNext()) {
+          log.debug("Reminder changed state.");
+          WorldState state = this.walletResponse.next();
+          Collection<Attribute> attributes = state.getState(this.config
+              .getWalletId());
+          if (attributes != null) {
+            for (Attribute attr : attributes) {
+              if (attr.getAttributeName().equalsIgnoreCase("missing")) {
+                Boolean newValue = BooleanConverter.get()
+                    .decode(attr.getData());
+                if (newValue.booleanValue()) {
+                  log.info("[Wallet] Don't forget the wallet!");
+                  // this.walletPanel.setNeedItems(true);
+                  this.walletPanel.setWalletIsMissing(true);
+                } else {
+                  log.info("[Wallet] Picked up your wallet.");
+                  this.walletPanel.setWalletIsMissing(false);
+                }
+
+              }
+            }
+          }
+          attributes = state.getState(this.config.getKeysId());
+          if (attributes != null) {
+            for (Attribute attr : attributes) {
+              if (attr.getAttributeName().equalsIgnoreCase("missing")) {
+                Boolean newValue = BooleanConverter.get()
+                    .decode(attr.getData());
+                if (newValue.booleanValue()) {
+                  log.info("[Keys] Don't forget the keys!");
+                  // this.walletPanel.setNeedItems(true);
+                  this.walletPanel.setKeyIsMissing(true);
+                } else {
+                  log.info("[Keys] Picked up your keys.");
+                  this.walletPanel.setKeyIsMissing(false);
+                }
+
+              }
+            }
+          }
+        }
+
         // Welcome mat
         if (this.doorResponse.hasNext()) {
           log.debug("Welcome mat changed state.");
@@ -134,9 +177,9 @@ public class MakerDemo extends Thread {
           Collection<Attribute> attributes = state.getState(this.config
               .getWelcomeMatId());
           for (Attribute attr : attributes) {
-            if (attr.getAttributeName().equalsIgnoreCase("closed")) {
-              Boolean newValue = (Boolean) DataConverter.decode(
-                  attr.getAttributeName(), attr.getData());
+            if (attr.getAttributeName().equalsIgnoreCase("open")) {
+              Boolean newValue = (Boolean) BooleanConverter.get().decode(
+                  attr.getData());
               if (newValue.booleanValue()) {
                 log.info("[Welcome Mat] A wild visitor has appeared!");
               } else {
@@ -174,8 +217,7 @@ public class MakerDemo extends Thread {
               .getPowerId());
           for (Attribute attr : attributes) {
             if (attr.getAttributeName().equalsIgnoreCase("on")) {
-              Boolean newValue = BooleanConverter.get().decode(
-                  attr.getData());
+              Boolean newValue = BooleanConverter.get().decode(attr.getData());
               if (newValue.booleanValue()) {
                 log.info("[Power Sensor] Flip the switch!");
               } else {
@@ -194,58 +236,13 @@ public class MakerDemo extends Thread {
               .getChairId());
           for (Attribute attr : attributes) {
             if (attr.getAttributeName().equalsIgnoreCase("occupied")) {
-              Boolean newValue = BooleanConverter.get().decode(
-                  attr.getData());
+              Boolean newValue = BooleanConverter.get().decode(attr.getData());
               if (newValue.booleanValue()) {
                 log.info("[Chair Sensor] What a comfy chair!");
               } else {
                 log.info("[Chair Sensor] Stretching my legs.");
               }
               this.chairPanel.setIsOccupied(newValue.booleanValue());
-            }
-          }
-        }
-
-        // Wallet and Keys sensor
-        if (this.walletResponse.hasNext()) {
-          log.debug("Reminder changed state.");
-          WorldState state = this.walletResponse.next();
-          Collection<Attribute> attributes = state.getState(this.config
-              .getWalletId());
-          if (attributes != null) {
-            for (Attribute attr : attributes) {
-              if (attr.getAttributeName().equalsIgnoreCase("missing")) {
-                Boolean newValue = BooleanConverter.get()
-                    .decode(attr.getData());
-                if (newValue.booleanValue()) {
-                  log.info("[Wallet] Don't forget the wallet!");
-                  this.walletPanel.setNeedItems(true);
-                  this.walletPanel.setWalletIsMissing(true);
-                } else {
-                  log.info("[Wallet] Picked up your wallet.");
-                  this.walletPanel.setWalletIsMissing(false);
-                }
-                
-              }
-            }
-          }
-          attributes = state.getState(this.config
-              .getKeysId());
-          if (attributes != null) {
-            for (Attribute attr : attributes) {
-              if (attr.getAttributeName().equalsIgnoreCase("missing")) {
-                Boolean newValue = BooleanConverter.get()
-                    .decode(attr.getData());
-                if (newValue.booleanValue()) {
-                  log.info("[Keys] Don't forget the keys!");
-                  this.walletPanel.setNeedItems(true);
-                  this.walletPanel.setKeyIsMissing(true);
-                } else {
-                  log.info("[Keys] Picked up your keys.");
-                  this.walletPanel.setKeyIsMissing(false);
-                }
-                
-              }
             }
           }
         }

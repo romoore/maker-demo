@@ -3,7 +3,7 @@
   <chairId>maker.demo.chair.9</chairId>
   <welcomeMatId>maker.demo.door.6</welcomeMatId>
   <waterId>maker.demo.flood.10</waterId>
-  <walletId>maker.demo.wallet</walletId>
-  <keysId>maker.demo.keys</keysId>
+  <walletId>maker.demo.wallet.16</walletId>
+  <keysId>maker.demo.keys.14</keysId>
   <powerId>maker.demo.power.122</powerId>
 </com.owlplatform.demo.MakerDemoConfig>
