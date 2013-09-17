@@ -38,33 +38,33 @@ import org.slf4j.LoggerFactory;
  * @author Robert Moore
  *
  */
-public class DoorPanel extends JPanel {
-  private static final Logger log = LoggerFactory.getLogger(DoorPanel.class);
-  private static BufferedImage doorImage = null;
-  private static BufferedImage visitorImage = null;
+public class ChestPanel extends JPanel {
+  private static final Logger log = LoggerFactory.getLogger(ChestPanel.class);
+  private static BufferedImage chestImage = null;
+  private static BufferedImage openImage = null;
   
-  private boolean hasVisitor = false;
+  private boolean isOpen = false;
   
-  public DoorPanel(){ 
+  public ChestPanel(){ 
     super();
-    if(this.doorImage != null){
-      this.setPreferredSize(new Dimension(this.doorImage.getWidth(), this.doorImage.getHeight()));
+    if(this.chestImage != null){
+      this.setPreferredSize(new Dimension(this.chestImage.getWidth(), this.chestImage.getHeight()));
     }
   }
   
   static {
     try {
-    doorImage = ImageIO.read(new File("src/main/resources/img/door.png"));
-    visitorImage = ImageIO.read(new File("src/main/resources/img/man.png"));
+    chestImage = ImageIO.read(new File("src/main/resources/img/chest_closed.png"));
+    openImage = ImageIO.read(new File("src/main/resources/img/chest_open.png"));
     }catch(Exception e){
       log.error("Unable to load one or more image resources.",e);
       
     }
   }
   
-  public void setHasVisitor(final boolean hasVisitor){
-    log.debug("Updating visitor state: {}", hasVisitor);
-    this.hasVisitor = hasVisitor;
+  public void setOpen(final boolean hasVisitor){
+    log.debug("Updating chest state: {}", hasVisitor);
+    this.isOpen = hasVisitor;
     this.repaint(100);
     
   }
@@ -72,7 +72,7 @@ public class DoorPanel extends JPanel {
   @Override
   public void paintComponent(Graphics g){
     super.paintComponent(g);
-    log.debug("Redrawing door panel.");
+    log.debug("Redrawing chest panel.");
     Graphics2D g2 = (Graphics2D)g;
     
     int width = this.getWidth();
@@ -91,38 +91,38 @@ public class DoorPanel extends JPanel {
     width -= 2;
     height -= 2;
     
-    if(doorImage != null){
-      log.debug("Drawing door image.");
-      float imgAR = (this.doorImage.getWidth()*1f)/this.doorImage.getHeight();
-      float scaleY = (height *1f) / this.doorImage.getHeight();
+    if(chestImage != null){
+      log.debug("Drawing chest image.");
+      float imgAR = (this.chestImage.getWidth()*1f)/this.chestImage.getHeight();
+      float scaleY = (height *1f) / this.chestImage.getHeight();
       
       int imgWidth = (int)(height*imgAR);
       int offsetX = (width - imgWidth)/2;
       
-      g2.drawImage(this.doorImage, offsetX, 1, imgWidth+offsetX, height, 0, 0, this.doorImage.getWidth(), this.doorImage.getHeight(), null);
+      g2.drawImage(this.chestImage, offsetX, 1, imgWidth+offsetX, height, 0, 0, this.chestImage.getWidth(), this.chestImage.getHeight(), null);
     }
     
-    if(this.hasVisitor) {
-      log.debug("Visitor is here!");
+    if(this.isOpen) {
+      log.debug("Chest is open!");
     }else{
-      log.debug("Nobody loves us...");
+      log.debug("Safe and sound...");
     }
     
-    if(this.hasVisitor && this.visitorImage != null){
-      log.debug("Drawing visitor image.");
+    if(this.isOpen && this.openImage != null){
+      log.debug("Drawing open image.");
       
-      float imgAR = (this.visitorImage.getWidth()*1f)/this.visitorImage.getHeight();
-      float scaleY = (height *1f) / this.visitorImage.getHeight();
+      float imgAR = (this.openImage.getWidth()*1f)/this.openImage.getHeight();
+      float scaleY = (height *1f) / this.openImage.getHeight();
       
       int imgWidth = (int)(height*imgAR);
       int offsetX = (width - imgWidth)/2;
       
-      g2.drawImage(this.visitorImage, offsetX, 1, imgWidth+offsetX, height, 0, 0, this.visitorImage.getWidth(), this.visitorImage.getHeight(), null);
+      g2.drawImage(this.openImage, offsetX, 1, imgWidth+offsetX, height, 0, 0, this.openImage.getWidth(), this.openImage.getHeight(), null);
     }
   }
 
-  public boolean isHasVisitor() {
-    return hasVisitor;
+  public boolean isOpen() {
+    return isOpen;
   }
   
 }

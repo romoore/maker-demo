@@ -179,4 +179,12 @@ public class ReminderPanel extends JPanel {
         + offsetY, 0, 0, image.getWidth(), image.getHeight(), null);
   }
 
+  public boolean isKeyIsMissing() {
+    return keyIsMissing;
+  }
+
+  public boolean isWalletIsMissing() {
+    return walletIsMissing;
+  }
+
 }

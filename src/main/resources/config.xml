@@ -1,9 +1,11 @@
 <com.owlplatform.demo.MakerDemoConfig>
-  <wmHost>raspberry</wmHost>
-  <chairId>maker.demo.chair.9</chairId>
-  <welcomeMatId>maker.demo.door.6</welcomeMatId>
-  <waterId>maker.demo.flood.10</waterId>
-  <walletId>maker.demo.wallet.16</walletId>
-  <keysId>maker.demo.keys.14</keysId>
-  <powerId>maker.demo.power.122</powerId>
+  <wmHost>dev1.owlplatform.com</wmHost>
+  <wmPort>7010</wmPort>
+  <chairId>ece.chair.2963</chairId>
+  <welcomeMatId>4X2wvbTunyOK_2021</welcomeMatId>
+  <waterId>ece.flood.2960</waterId>
+  <walletId>ece.wallet.1112</walletId>
+  <keysId>ece.keys.1113</keysId>
+  <powerId>ece.power.1114</powerId>
+  <logoId>ece.logo.1115</logoId>
 </com.owlplatform.demo.MakerDemoConfig>

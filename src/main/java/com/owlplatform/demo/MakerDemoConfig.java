@@ -24,12 +24,14 @@ package com.owlplatform.demo;
  */
 public class MakerDemoConfig {
   private String wmHost = "localhost";
+  private int wmPort = 7010;
   private String chairId = "maker.demo.chair";
   private String welcomeMatId = "maker.demo.welcome mat";
   private String waterId = "maker.demo.water sensor";
   private String walletId = "maker.demo.wallet";
   private String keysId = "maker.demo.keys";
   private String powerId = "maker.demo.power";
+  private String logoId = "maker.demo.logo";
   public String getWmHost() {
     return wmHost;
   }
@@ -71,5 +73,17 @@ public class MakerDemoConfig {
   }
   public void setPowerId(String powerId) {
     this.powerId = powerId;
+  }
+  public String getLogoId() {
+    return logoId;
+  }
+  public void setLogoId(String logoId) {
+    this.logoId = logoId;
+  }
+  public int getWmPort() {
+    return wmPort;
+  }
+  public void setWmPort(int wmPort) {
+    this.wmPort = wmPort;
   }
 }

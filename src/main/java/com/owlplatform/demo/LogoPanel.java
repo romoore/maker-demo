@@ -37,84 +37,94 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Robert Moore
- *
  */
 public class LogoPanel extends JPanel {
   private static final Logger log = LoggerFactory.getLogger(LogoPanel.class);
   private static BufferedImage logo = null;
-  
-  
-  private boolean hasWater = false;
-  
-  public LogoPanel(){ 
+  private static BufferedImage logo_empty = null;
+
+  private boolean isMoving = false;
+
+  public LogoPanel() {
     super();
-    if(this.logo != null){
-      this.setPreferredSize(new Dimension(this.logo.getWidth(), this.logo.getHeight()));
+    if (LogoPanel.logo != null) {
+      this.setPreferredSize(new Dimension(LogoPanel.logo.getWidth(),
+          LogoPanel.logo.getHeight()));
     }
   }
-  
+
   static {
     try {
-    logo = ImageIO.read(new File("src/main/resources/img/owl.png"));
-    }catch(Exception e){
-      log.error("Unable to load one or more image resources.",e);
-      
+      logo = ImageIO.read(new File("src/main/resources/img/owl_perch.png"));
+      logo_empty = ImageIO
+          .read(new File("src/main/resources/img/owl_empty.png"));
+    } catch (Exception e) {
+      log.error("Unable to load one or more image resources.", e);
+
     }
   }
-  
-  
+
   @Override
-  public void paintComponent(Graphics g){
+  public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    log.debug("Redrawing flood panel.");
-    Graphics2D g2 = (Graphics2D)g;
-    
+    log.debug("Redrawing logo panel.");
+    Graphics2D g2 = (Graphics2D) g;
+
     int width = this.getWidth();
     int height = this.getHeight();
-    
+
     g2.setColor(Color.WHITE);
-    
+
     g2.fillRect(0, 0, width, height);
-    
-    g2.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-    
+
+    g2.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND,
+        BasicStroke.JOIN_ROUND));
+
     g2.setColor(Color.BLACK);
-    
+
     g2.drawRect(0, 0, width, height);
 
     width -= 2;
     height -= 2;
-    
-    BufferedImage drawImage = this.logo;
-    
-    
-    
-    float imgAR = (drawImage.getWidth()*1f)/drawImage.getHeight();
-    float screenAR = (width*1f)/height;
-    
+
+    BufferedImage drawImage = LogoPanel.logo_empty;
+    if (this.isMoving) {
+      drawImage = LogoPanel.logo;
+    }
+
+    float imgAR = (drawImage.getWidth() * 1f) / drawImage.getHeight();
+    float screenAR = (width * 1f) / height;
+
     int imgHeight = 0;
     int imgWidth = 0;
     int offsetX = 1;
     int offsetY = 1;
-    
+
     // Wide screen
-    if(screenAR > 1){
+    if (screenAR > 1) {
       imgHeight = height;
-      imgWidth = (int)(height*imgAR);
-      offsetX = (width - imgWidth)/2;
+      imgWidth = (int) (height * imgAR);
+      offsetX = (width - imgWidth) / 2;
     }
     // Tall
-    else{
+    else {
       imgWidth = width;
-      imgHeight = (int)(width/imgAR);
-      offsetY = (height - imgHeight)/2;
+      imgHeight = (int) (width / imgAR);
+      offsetY = (height - imgHeight) / 2;
     }
-    
-    
-    
-    g2.drawImage(drawImage, offsetX, offsetY, imgWidth + offsetX, imgHeight + offsetY, 0, 0, drawImage.getWidth(), drawImage.getHeight(), null);
-    
-    
+
+    g2.drawImage(drawImage, offsetX, offsetY, imgWidth + offsetX, imgHeight
+        + offsetY, 0, 0, drawImage.getWidth(), drawImage.getHeight(), null);
+
   }
-  
+
+  public boolean isMoving() {
+    return isMoving;
+  }
+
+  public void setMoving(boolean isMoving) {
+    this.isMoving = isMoving;
+    this.repaint(100);
+  }
+
 }
